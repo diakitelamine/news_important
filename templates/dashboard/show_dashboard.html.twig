@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="text-center mt-5 mb-3">Dashboard</h2>
+			</div>
+
+			<div class="col-sm-12 col-lg-12 col-xl-12 mt-4">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+							{% if label == 'success' %}
+								<span class="alert-inner--icon">
+									<i class="fe fe-thumbs-up"></i>
+								</span>
+							{% else %}
+								<span class="alert-inner--icon">
+									<i class="fe fe-thumbs-down"></i>
+								</span>
+							{% endif %}
+							<span class="alert-inner--text">
+								<strong>{{ label | title }}
+									:
+								</strong>
+								{{ message | raw }}</span>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+
+			<div class="col-12">
+				<h2 class="text-center mt-3 mb-5">Tous les articles</h2>
+			</div>
+
+			<table class="table col-12">
+				<thead>
+					<tr>
+						<th class="text-center" scope="col">ID</th>
+						<th class="text-center" scope="col">Catégorie</th>
+						<th class="text-center" scope="col">Titre</th>
+						<th class="text-center" scope="col">Sous-titre</th>
+						<th class="text-center" scope="col">Contenu</th>
+						<th class="text-center" scope="col">Créé le</th>
+						<th class="text-center" scope="col">Modifié le</th>
+						<th class="text-center" scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for article in articles %}
+						<tr>
+							<td class="text-center">
+								{{ article.id }}
+							</td>
+							<td class="text-center">
+								{{ article.category.name }}
+							</td>
+							<td class="text-center">
+								{{ article.title | length > 30 ? article.title | slice(0, 30) ~ '...' : article.title }}
+							</td>
+							<td class="text-center">
+								{{ article.subtitle | length > 30 ? article.subtitle | slice(0, 30) ~ '...' : article.subtitle }}
+							</td>
+							<td class="text-center">
+								{{ article.content | length > 300 ? article.content | slice(0, 300) ~ '...' : article.content }}
+							</td>
+							<td class="text-center">
+								{{ article.createdAt | date('d/m/Y') }}
+							</td>
+							<td class="text-center">
+								{{ article.updatedAt | date('d/m/Y') }}
+							</td>
+							<td class="text-center">
+								<a href="{{ path('update_article', { 'id': article.id }) }}" class="btn btn-primary">
+									<i class="fa fa-edit"></i>
+								</a>
+								&nbsp;
+								<a href="{{ path('soft_delete_article', { 'id': article.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer l\'article ?')">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="col-6">
+				<h2 class="text-center my-5">Utilisateurs</h2>
+				<div class="row mx-0">
+					<table class="table col-12">
+						<thead>
+							<tr>
+								<th class="text-center" scope="col">ID</th>
+								<th class="text-center" scope="col">Rôle</th>
+								<th class="text-center" scope="col">Nom</th>
+								<th class="text-center" scope="col">Prénom</th>
+								<th class="text-center" scope="col">Email</th>
+								<th class="text-center" scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in users %}
+								<tr>
+									<td class="text-center">
+										{{ user.id }}
+									</td>
+									<td class="text-center">
+										{{ user.roles | first }}
+									</td>
+									<td class="text-center">
+										{{ user.lastname }}
+									</td>
+									<td class="text-center">
+										{{ user.firstname }}
+									</td>
+									<td class="text-center">
+										{{ user.email }}
+									</td>
+									<td class="text-center">
+										<a href="#" class="btn btn-primary">
+											<i class="fa fa-edit"></i>
+										</a>
+										&nbsp;
+										<a href="{{ path('soft_delete_user', { 'id': user.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer l'utilisateur ?')">
+											<i class="fa fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-6">
+				<h2 class="text-center my-5">Catégories</h2>
+				<div class="row mx-0">
+					<table class="table col-12">
+						<thead>
+							<tr>
+								<th class="text-center" scope="col">ID</th>
+								<th class="text-center" scope="col">Nom</th>
+								<th class="text-center" scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for category in categories %}
+								<tr>
+									<td class="text-center">
+										{{ category.id }}
+									</td>
+									<td class="text-center">
+										{{ category.name }}
+									</td>
+									<td class="text-center">
+										<a href="#" class="btn btn-primary">
+											<i class="fa fa-edit"></i>
+										</a>
+										&nbsp;
+										<a href="{{ path('soft_delete_category', { 'id': category.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer la catégorie ?')">
+											<i class="fa fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+{% endblock %}

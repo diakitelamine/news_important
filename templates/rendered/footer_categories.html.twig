@@ -1,0 +1,5 @@
+{% for category in categories %}
+	<li>
+		<a href="{{ path('show_article_from_category', { 'alias': category.alias }) }}" class="text-muted">{{ category.name }}</a>
+	</li>
+{% endfor %}

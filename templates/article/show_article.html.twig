@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-12 col-xl-12 mt-4">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+							{% if label == 'success' %}
+								<span class="alert-inner--icon">
+									<i class="fe fe-thumbs-up"></i>
+								</span>
+							{% else %}
+								<span class="alert-inner--icon">
+									<i class="fe fe-thumbs-down"></i>
+								</span>
+							{% endif %}
+							<span class="alert-inner--text">
+								<strong>{{ label | title }}
+									:
+								</strong>
+								{{ message | raw }}</span>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+
+			<div class="col-10 my-4 mx-auto">
+				<div class="card">
+					<div class="card-header">
+						<h1 class="card-title text-center mb-5">{{ article.title }}</h1>
+						<p class="h4 text-center mb-3 text-secondary">{{ article.subtitle }}</p>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item text-center text-muted">Créer le :
+							{{ article.createdAt | date('d/m/y') }}. Par :
+							{{ article.author.lastname }}
+							{{ article.author.firstname }}.
+						</li>
+					</ul>
+					<img class="img-custom" src="{{ asset('uploads_dir/' ~ article.photo) }}" alt="{{ article.title }}">
+					<div class="card-body">
+						<p class="card-text my-4 col-10 mx-auto text-center">
+							{{ article.content | raw }}
+						</p>
+					</div>
+				</div>
+			</div>
+
+			{{ render(url('add_commentary', { 'id': article.id })) }}
+
+			{% if commentaries is defined %}
+				{% for commentary in commentaries %}
+					<div class="col-10 my-4 mx-auto" style="border:1px solid grey;border-radius:5px;">
+						<div class="row mt-2 mx-0">
+							<div class="col-6">
+								<h4>{{ commentary.author.lastname }}
+									{{ commentary.author.firstname }}</h4>
+							</div>
+							<div class="col-6 text-end">
+								<span>{{ commentary.createdAt | date('d/m/y') }}</span>
+							</div>
+							<div class="col-12">
+								<p>{{ commentary.comment }}</p>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
+
+		</div>
+	</div>
+{% endblock %}

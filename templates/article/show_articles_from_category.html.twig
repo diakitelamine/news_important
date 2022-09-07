@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<h2 class="text-center mt-3">Catégorie
+		{{ category.name }}</h2>
+	{% if articles is not empty %}
+
+		<div class="col-9 mx-auto mt-5">
+			{% for article in articles %}
+				<div class="row mt-4">
+					<div class="col-4 mr-3">
+						<img width="90%" src="{{ asset('uploads_dir/' ~article.photo) }}" alt="{{article.title}}" class="img-card-custom rounded shadow">
+					</div>
+					<div class="col-8">
+						<a href="{{ path('show_article', { 'cat_alias': article.category.alias, 'art_alias': article.alias }) }}" class="text-decoration-none text-dark">
+							<h3>{{ article.title }}</h3>
+						</a>
+						<p>{{ article.subtitle }}</p>
+					</div>
+				</div>
+				<hr>
+			{% endfor %}
+		</div>
+	{% else %}
+		<h3 class="col-10 mx-auto text-center mt-5">Aucun article disponible dans cette catégorie</h3>
+		<div class="col-2 mx-auto mt-5">
+			<a href="{{ path('create_article') }}" class="d-block btn btn-dark text-warning">Créer un article</a>
+		</div>
+	{% endif %}
+{% endblock %}

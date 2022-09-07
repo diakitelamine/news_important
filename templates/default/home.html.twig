@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+
+			<div class="col-12">
+				<h2 class="text-center my-5">Tous les articles</h2>
+			</div>
+
+			<div class="col-sm-12 col-lg-12 col-xl-12 mt-4">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+							{% if label == 'success' %}
+								<span class="alert-inner--icon">
+									<i class="fe fe-thumbs-up"></i>
+								</span>
+							{% else %}
+								<span class="alert-inner--icon">
+									<i class="fe fe-thumbs-down"></i>
+								</span>
+							{% endif %}
+							<span class="alert-inner--text">
+								<strong>{{ label | title }}
+									:
+								</strong>
+								{{ message | raw }}</span>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+
+			{% for article in articles %}
+				<div class="col-4">
+					<div class="card overflow-auto" style="width: 100%; height: 30rem;">
+						<img src="{{ asset('uploads_dir/' ~ article.photo) }}" class="card-img-top img-card-custom" alt="">
+
+						<div class="card-body">
+							<h5 class="card-title text-truncate">{{ article.title }}</h5>
+							<h6 class="card-title text-truncate">{{ article.subtitle }}</h6>
+							<p class="card-text">{{ article.content | length > 200 ? article.content | slice(0, 200) ~ '...' : article.content  }}</p>
+							<a href="{{ path('show_article', { 'cat_alias': article.category.alias, 'art_alias': article.alias }) }}" class="btn btn-warning d-block mx-auto">Voir l'article</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
+
+{# <ul class="list-group list-group-flush">
+    <li class="list-group-item">Catégorie :
+    </li>
+</ul> #}

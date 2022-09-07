@@ -1,0 +1,20 @@
+.img-card-custom {
+    height: 200px;
+    object-fit: cover;
+}
+
+.img-custom {
+    height: 600px;
+    object-fit: cover;
+}
+
+.text-truncate {
+    width: -webkit-fill-available !important;
+    white-space: nowrap !important;
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap !important;
+    white-space: -o-pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
